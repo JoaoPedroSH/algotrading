@@ -12,6 +12,12 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
+import MetaTrader5 as mt5
+
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
 from app.services.db.db import get_db
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
@@ -66,6 +72,15 @@ def login():
         if error is None:
             session.clear()
             session["user_id"] = user["id"]
+            
+            """ login = os.getenv("login")
+            server = os.getenv("server")
+            passwordmt5 = os.getenv("password") """
+            
+            if not mt5.initialize():
+                print("Inicialização do MT5 falhou!")
+                mt5.shutdown()
+            flash("MetaTrader 5 Inicializado com Sucesso!")
             return redirect(url_for("index"))
 
         flash(error)
@@ -83,19 +98,19 @@ def load_logged_in_user():
         g.user = (
             get_db().execute("SELECT * FROM user WHERE id = ?", (user_id,)).fetchone()
         )
-        
-        
-@bp.route('/logout')
+
+
+@bp.route("/logout")
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for("index"))
 
 
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
-            return redirect(url_for('auth.login'))
+            return redirect(url_for("auth.login"))
 
         return view(**kwargs)
 
