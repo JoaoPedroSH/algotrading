@@ -24,9 +24,13 @@ def create_app(test_config=None):
 
     db.init_app(app)
 
-    from .services.landingPage import landingPage
+    from .services.auth import auth
 
-    app.register_blueprint(landingPage.bp)
+    app.register_blueprint(auth.bp)
+
+    from .services.orders import orders
+
+    app.register_blueprint(orders.bp)
     app.add_url_rule("/", endpoint="index")
 
     return app
