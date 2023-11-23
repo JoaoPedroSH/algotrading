@@ -5,11 +5,12 @@ description = "AI system for automated financial market operations"
 dependencies = ["flask"]
 
 [build-system]
-requires = ["flit_core<4"]
-build-backend = "flit_core.buildapi"
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
 
-[tool.flit.metadata]
-module = "algotrading"
+[tool.pytest.ini_options]
+testpaths = ["tests"]
 
-[tool.flit.metadata.extras]
-development = ["pytest"]
+[tool.coverage.run]
+branch = true
+source = ["app"]

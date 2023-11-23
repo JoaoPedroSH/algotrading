@@ -20,21 +20,13 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    @app.route("/hello")
-    def hello():
-        return "Hello, World!"
-
     from .services.db import db
 
     db.init_app(app)
 
-    from .services.auth import auth
+    from .services.landingPage import landingPage
 
-    app.register_blueprint(auth.bp)
-
-    from .services.orders import orders
-
-    app.register_blueprint(orders.bp)
+    app.register_blueprint(landingPage.bp)
     app.add_url_rule("/", endpoint="index")
 
     return app
