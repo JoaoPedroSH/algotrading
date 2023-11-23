@@ -10,7 +10,7 @@ Microsoft Visual C++ 14.0 (Build Tool) ['https://visualstudio.microsoft.com/pt-b
 flask --app app run --debug 
 
 ### Init database
-flask --app flaskr init-db
+flask --app app init-db
 
 ### Start Run File 
 python [name do arquivo].py
