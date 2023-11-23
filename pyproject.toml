@@ -1,0 +1,15 @@
+[project]
+name = "algotrading"
+version = "0.0.1"
+description = "AI system for automated financial market operations"
+dependencies = ["flask"]
+
+[build-system]
+requires = ["flit_core<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.metadata]
+module = "algotrading"
+
+[tool.flit.metadata.extras]
+development = ["pytest"]
