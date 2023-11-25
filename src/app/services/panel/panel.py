@@ -12,22 +12,19 @@ bp = Blueprint("panel", __name__)
 
 @bp.route("/")
 def index():
-    db = get_db()
-    posts = db.execute(
-        "SELECT p.id, title, body, created, author_id, username"
-        " FROM post p JOIN user u ON p.author_id = u.id"
-        " ORDER BY created DESC"
-    ).fetchall()
-    
+    from app.services.panel.model import getConfigs
+    configs = getConfigs()
     initMt5 = initializeMt5()
-            
-    return render_template("panel/index.html", posts=posts, initMt5=initMt5)
+    
+    if not configs:
+        flash("Nenhum configuração criada!")
+        
+    return render_template("panel/index.html", configs=configs, initMt5=initMt5)
 
 
 @bp.route("/create", methods=("GET", "POST"))
 @login_required
 def create():
-    
     if request.method == "POST":
         from app.services.panel.controller import checkformCreate
         

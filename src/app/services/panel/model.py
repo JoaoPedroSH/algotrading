@@ -1,5 +1,17 @@
 from app.services.db.db import get_db
 
+def getConfigs():
+    try:
+        db = get_db()
+        configs = db.execute(
+            "SELECT c.id, c.user_id, account_mt5, server_mt5, symbol, period, status, created"
+            " FROM config c JOIN user u ON c.user_id = u.id"
+            " ORDER BY created DESC"
+        ).fetchall()
+        return configs
+    except Exception as e:
+        print(f"Erro ao tentar buscar as configurações: {e}")
+
 def postNewConfig(idUser, request):
     try:
         db = get_db()
