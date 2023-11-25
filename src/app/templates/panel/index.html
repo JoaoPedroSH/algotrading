@@ -13,8 +13,7 @@
     <div class="history-container">
       <h1>Histórico</h1>
       <hr />
-      <h1>WebSocket Example</h1>
-      <ul id="messages"></ul>
+   
     </div>
 
     {% if g.user %}
@@ -40,17 +39,17 @@
           </div>
         </div>
         <hr />
-        {% if g.user['id'] == configs[0]['user_id'] %}
+        {% if configs[0] and g.user['id'] == configs[0]['user_id'] %}
           {% for config in configs %}
             <article class="config">
               <header>
                 <div>
                   <h1>{{ config['symbol'] }}</h1>
                   <h1>{{ config['period'] }}</h1>
-                  <h1>{{ config['status'] }}</h1>
+                  <h1 id="status">{{ config['status'] }}</h1>
                   <div class="about">by {{ config['account_mt5'] }} | {{ config['server_mt5'] }} on {{ config['created'].strftime('%d-%m-%Y') }}</div>
                 </div>
-                <a class="action" href="{{ url_for('panel.update', id = config['id']) }}">Executar</a>
+                <a class="action" href="{{ url_for('panel.execute', id = config['id']) }}">Executar</a>
                 <a class="action" href="{{ url_for('panel.update', id = config['id']) }}">Editar</a>
               </header>
             </article>
@@ -62,11 +61,14 @@
       </div>
     {% endif %}
   </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
-  <script type="text/javascript" charset="utf-8">
-      var socket = io();
-      socket.on('connect', function() {
-          socket.emit('message', {data: 'I\'m connected!'});
-      });
+  <script>
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+    socket.on('connect', function(message) {
+      console.log("Websocket Connected");
+    });
+    socket.on('loading_config', function(message) {
+      var status = document.getElementById('status');
+      status.innerText = message;
+    });
   </script>
 {% endblock %}

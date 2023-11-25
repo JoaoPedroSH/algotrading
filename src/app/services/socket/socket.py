@@ -1,13 +1,12 @@
 from flask_socketio import SocketIO
 
-socketio = None
+socketio = SocketIO()
+
 
 def init_socket(app):
-    global socketio
-    socketio = SocketIO(app)
-    
-    @socketio.on('message')
-    def handle_message(data):
-        print('received message: ' + data)
+    socketio.init_app(app)
 
 
+@socketio.on("loading_config")
+def loadingConfig(message):
+    socketio.emit("loading_config", message)

@@ -16,6 +16,7 @@ from app.services.db.db import get_db
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
+
 @bp.route("/register", methods=("GET", "POST"))
 def register():
     if request.method == "POST":

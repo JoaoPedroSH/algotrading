@@ -1,24 +1,30 @@
-from flask import Blueprint, flash, g, redirect, render_template, request, url_for
+from flask import (
+    Blueprint,
+    flash,
+    g,
+    redirect,
+    render_template,
+    request,
+    url_for
+)
 from werkzeug.exceptions import abort
 
 from app.services.auth.auth import login_required
 from app.services.db.db import get_db
 
-from app.services.mt5.mt5 import getSymbolsMt5
-from app.services.mt5.mt5 import initializeMt5
+from app.services.mt5 import mt5
+from app.services.panel import model
+from app.services.panel import controller
 
 bp = Blueprint("panel", __name__)
 
 
 @bp.route("/")
 def index():
-    from app.services.panel.model import getConfigs
-    configs = getConfigs()
-    initMt5 = initializeMt5()
-    
+    configs = model.getConfigs()
+    initMt5 = mt5.initializeMt5()
     if not configs:
         flash("Nenhum configuração criada!")
-        
     return render_template("panel/index.html", configs=configs, initMt5=initMt5)
 
 
@@ -26,23 +32,21 @@ def index():
 @login_required
 def create():
     if request.method == "POST":
-        from app.services.panel.controller import checkformCreate
-        
-        check_form = checkformCreate(request.form)
+        check_form = controller.checkformCreate(request.form)
         error = check_form
-        
+
         if error is not None:
             flash(error)
         else:
-            from app.services.panel.model import postNewConfig
-            
             try:
-                postNewConfig(g.user["id"], request)
+                model.postNewConfig(g.user["id"], request)
                 return redirect(url_for("panel.index"))
             except Exception as e:
-                flash("Não foi possível inserir uma nova configuração. Entre em contato com o suporte!")
+                flash(
+                    f"Não foi possível inserir uma nova configuração. Entre em contato com o suporte! {e}"
+                )
 
-    symbols = getSymbolsMt5()
+    symbols = mt5.getSymbolsMt5()
     return render_template("panel/create_config.html", symbols=symbols)
 
 
@@ -101,3 +105,16 @@ def delete(id):
     db.execute("DELETE FROM post WHERE id = ?", (id,))
     db.commit()
     return redirect(url_for("panel.index"))
+
+import asyncio
+@bp.route("/<int:id>/execute")
+@login_required
+def execute(id):
+    exec = asyncio.run(mt5.executeConfig(id))
+    if not exec:
+        flash(
+            f"Erro ao tentar executar a configuração. Entre em contato com o suporte!"
+        )
+    return redirect(url_for("panel.index"))
+
+
