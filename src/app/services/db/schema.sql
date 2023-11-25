@@ -16,3 +16,16 @@ CREATE TABLE post (
   body TEXT NOT NULL,
   FOREIGN KEY (author_id) REFERENCES user (id)
 );
+
+CREATE TABLE config (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  account_mt5 INTEGER NOT NULL,
+  server_mt5 TEXT NOT NULL,
+  password_mt5 TEXT NOT NULL,
+  symbol TEXT NOT NULL,
+  period TEXT NOT NULL,
+  status INTEGER NOT NULL,
+  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES user (id)
+);

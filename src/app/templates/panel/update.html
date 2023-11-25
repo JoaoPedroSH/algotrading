@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>
+    {% block title %}
+      Edit "{{ config['symbol'] }}"
+    {% endblock %}
+  </h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="account_mt5">Conta MT5</label>
+    <input name="account_mt5" id="account_mt5" value="{{ request.form['account_mt5'] or config['account_mt5'] }}" required />
+
+    <input type="submit" value="Save" />
+  </form>
+  <hr />
+  <form action="{{ url_for('panel.delete', id = config['id']) }}" method="post">
+    <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');" />
+  </form>
+{% endblock %}

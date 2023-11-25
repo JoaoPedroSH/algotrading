@@ -67,7 +67,6 @@ def login():
             session.clear()
             session["user_id"] = user["id"]
             return redirect(url_for("index"))
-
         flash(error)
 
     return render_template("auth/login.html")
@@ -83,19 +82,19 @@ def load_logged_in_user():
         g.user = (
             get_db().execute("SELECT * FROM user WHERE id = ?", (user_id,)).fetchone()
         )
-        
-        
-@bp.route('/logout')
+
+
+@bp.route("/logout")
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for("index"))
 
 
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
-            return redirect(url_for('auth.login'))
+            return redirect(url_for("auth.login"))
 
         return view(**kwargs)
 
