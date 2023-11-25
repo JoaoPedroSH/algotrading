@@ -47,7 +47,7 @@
                   <h1>{{ config['symbol'] }}</h1>
                   <h1>{{ config['period'] }}</h1>
                   <h1 id="status">{{ config['status'] }}</h1>
-                  <div class="about">by {{ config['account_mt5'] }} | {{ config['server_mt5'] }} on {{ config['created'].strftime('%d-%m-%Y') }}</div>
+                  <div class="about">by {{ config['account_mt5'] }} | {{ config['server_mt5'] }} on {{ config['created'].strftime('%d/%m/%Y') }}</div>
                 </div>
                 <a class="action" href="{{ url_for('panel.execute', id = config['id']) }}">Executar</a>
                 <a class="action" href="{{ url_for('panel.update', id = config['id']) }}">Editar</a>
