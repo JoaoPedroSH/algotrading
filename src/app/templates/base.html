@@ -1,5 +1,5 @@
 <!doctype html>
-<title>{% block title %}{% endblock %} - Algotrading</title>
+<title>Algotrading - {% block title %}{% endblock %}</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <nav>
   <h1>Algotrading App</h1>
@@ -13,6 +13,7 @@
     {% endif %}
   </ul>
 </nav>
+
 <section class="content">
   {% for message in get_flashed_messages() %}
     <div class="flash">{{ message }}</div>

@@ -12,16 +12,9 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-import MetaTrader5 as mt5
-
-from dotenv import load_dotenv
-import os
-load_dotenv()
-
 from app.services.db.db import get_db
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
-
 
 @bp.route("/register", methods=("GET", "POST"))
 def register():
@@ -72,17 +65,7 @@ def login():
         if error is None:
             session.clear()
             session["user_id"] = user["id"]
-            
-            """ login = os.getenv("login")
-            server = os.getenv("server")
-            passwordmt5 = os.getenv("password") """
-            
-            if not mt5.initialize():
-                print("Inicialização do MT5 falhou!")
-                mt5.shutdown()
-            flash("MetaTrader 5 Inicializado com Sucesso!")
             return redirect(url_for("index"))
-
         flash(error)
 
     return render_template("auth/login.html")

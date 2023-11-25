@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>
+    {% block title %}
+      Painel de Controle
+    {% endblock %}
+  </h1>
+{% endblock %}
+
+{% block content %}
+  {% if g.user %}
+    <div class="content-container">
+      <div class="history-container">
+        <h1>Histórico</h1>
+        {% for post in posts %}
+          {% if g.user['id'] == post['author_id'] %}
+            <hr />
+            <article class="post">
+              <header>
+                <div>
+                  <h1>{{ post['title'] }}</h1>
+                  <div class="about">by {{ post['username'] }} on {{ post['created'].strftime('%Y-%m-%d') }}</div>
+                </div>
+                <a class="action" href="{{ url_for('panel.update', id = post['id']) }}">Edit</a>
+              </header>
+              <p class="body">{{ post['body'] }}</p>
+            </article>
+            {% if not loop.last %}
+              <hr />
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="ia-content">
+        <h1>Configurações</h1>
+        <hr />
+        <div id="container-new-config">
+          <div id="col-info-setup">
+            <p>
+              MetaTrader 5:
+              {% if initMt5 %}
+                Ativo
+              {% else %}
+                Inativo
+              {% endif %}
+            </p>
+          </div>
+          <div id="col-new-config">
+            {% if g.user %}
+              <p><a class="action" href="{{ url_for('panel.create') }}">Nova configuração</a></p>
+            {% endif %}
+          </div>
+        </div>
+        <hr />
+
+        {% for post in posts %}
+          <article class="post">
+            <header>
+              <div>
+                <h1>{{ post['title'] }}</h1>
+                <div class="about">by {{ post['username'] }} on {{ post['created'].strftime('%Y-%m-%d') }}</div>
+              </div>
+              {% if g.user['id'] == post['author_id'] %}
+                <a class="action" href="{{ url_for('panel.update', id = post['id']) }}">Edit</a>
+              {% endif %}
+            </header>
+            <p class="body">{{ post['body'] }}</p>
+          </article>
+          {% if not loop.last %}
+            <hr />
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

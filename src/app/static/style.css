@@ -117,16 +117,6 @@ header .action {
     flex-direction: column;
 }
 
-.content label {
-    font-weight: bold;
-    margin-bottom: 0.5em;
-}
-
-.content input,
-.content textarea {
-    margin-bottom: 1em;
-}
-
 .content textarea {
     min-height: 12em;
     resize: vertical;
@@ -139,4 +129,65 @@ input.danger {
 input[type=submit] {
     align-self: start;
     min-width: 10em;
+}
+
+.content-container {
+    display: flex;
+}
+
+.history-container {
+    flex: 1;
+    margin-top: 10px;
+    padding: 5px;
+    border: 1px solid lightgray;
+}
+
+.history-container>h1 {
+    text-align: center;
+}
+
+.ia-content {
+    width: 75%;
+    margin-left: 10px;
+    margin-top: 10px;
+    padding: 5px;
+    border: 1px solid lightgray;
+}
+
+.ia-content>h1 {
+    text-align: center;
+}
+
+#container-new-config {
+    display: flex;
+}
+
+#col-info-setup {
+    flex: 1;
+}
+
+#col-new-config {
+    flex: 1;
+    text-align: end;
+}
+
+.container-form-config {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.form-control {
+    padding: 5px;
+    margin-bottom: 1em;
+}
+
+.form-label {
+    font-weight: bold;
+    font-size: small;
+    margin-bottom: 0.5em;
+}
+
+.form-button {
+    margin: 1em;
 }

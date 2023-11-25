@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>
+    {% block title %}
+      Criar nova configuração
+    {% endblock %}
+  </h1>
+{% endblock %}
+
+{% block content %}
+<div class="container-form-config">
+  <form method="post">
+    <label class="form-label" for="account_mt5">Conta MT5</label>
+    <input class="form-control" type="text" name="account_mt5" value="{{ request.form['account_mt5'] }}" required />
+
+    <label class="form-label" for="server_mt5">Servidor MT5</label>
+    <input class="form-control" type="text" name="server_mt5" id="server_mt5" value="{{ request.form['server_mt5'] }}" required />
+
+    <label class="form-label" for="password_mt5">Password MT5</label>
+    <input class="form-control" type="password" name="password_mt5" id="password_mt5" value="{{ request.form['password_mt5'] }}" required />
+
+    <label class="form-label" for="symbol">Ativo</label>
+    <select class="form-control" name="symbol" id="symbol" required>
+      <option value="" disabled selected></option>
+      {% for s in symbols %}
+        <option value={{ s['name'] }}>{{ s['name'] }}</option>
+      {% endfor %}
+    </select>
+
+    <label class="form-label" for="period">Periodo</label>
+    <select class="form-control" name="period" id="period" required>
+      <option value="" disabled selected></option>
+      <option value="M1">1 Minuto</option>
+      <option value="M5">5 Minutos</option>
+      <option value="M15">15 Minutos</option>
+      <option value="M30">30 Minutos</option>
+      <option value="H1">1 Hora</option>
+      <option value="H4">4 Horas</option>
+      <option value="D1">Diário</option>
+      <option value="W1">Semanal</option>
+      <option value="MN">Mensal</option>
+    </select>
+
+    <button class="form-button" type="submit">Salvar</button>
+  </form>
+</div>
+{% endblock %}

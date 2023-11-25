@@ -4,7 +4,10 @@ from werkzeug.exceptions import abort
 from app.services.auth.auth import login_required
 from app.services.db.db import get_db
 
-bp = Blueprint("orders", __name__)
+from app.services.mt5.mt5 import getSymbolsMt5
+from app.services.mt5.mt5 import initializeMt5
+
+bp = Blueprint("panel", __name__)
 
 
 @bp.route("/")
@@ -15,32 +18,35 @@ def index():
         " FROM post p JOIN user u ON p.author_id = u.id"
         " ORDER BY created DESC"
     ).fetchall()
-    return render_template("orders/index.html", posts=posts)
+    
+    initMt5 = initializeMt5()
+            
+    return render_template("panel/index.html", posts=posts, initMt5=initMt5)
 
 
 @bp.route("/create", methods=("GET", "POST"))
 @login_required
 def create():
+    
     if request.method == "POST":
-        title = request.form["title"]
-        body = request.form["body"]
-        error = None
-
-        if not title:
-            error = "Title is required."
-
+        from app.services.panel.controller import checkformCreate
+        
+        check_form = checkformCreate(request.form)
+        error = check_form
+        
         if error is not None:
             flash(error)
         else:
-            db = get_db()
-            db.execute(
-                "INSERT INTO post (title, body, author_id)" " VALUES (?, ?, ?)",
-                (title, body, g.user["id"]),
-            )
-            db.commit()
-            return redirect(url_for("orders.index"))
+            from app.services.panel.model import postNewConfig
+            
+            try:
+                postNewConfig(g.user["id"], request)
+                return redirect(url_for("panel.index"))
+            except Exception as e:
+                flash("Não foi possível inserir uma nova configuração. Entre em contato com o suporte!")
 
-    return render_template("orders/create.html")
+    symbols = getSymbolsMt5()
+    return render_template("panel/create_config.html", symbols=symbols)
 
 
 def get_post(id, check_author=True):
@@ -85,9 +91,9 @@ def update(id):
                 "UPDATE post SET title = ?, body = ?" " WHERE id = ?", (title, body, id)
             )
             db.commit()
-            return redirect(url_for("orders.index"))
+            return redirect(url_for("panel.index"))
 
-    return render_template("orders/update.html", post=post)
+    return render_template("panel/update.html", post=post)
 
 
 @bp.route("/<int:id>/delete", methods=("POST",))
@@ -97,4 +103,4 @@ def delete(id):
     db = get_db()
     db.execute("DELETE FROM post WHERE id = ?", (id,))
     db.commit()
-    return redirect(url_for("orders.index"))
+    return redirect(url_for("panel.index"))
