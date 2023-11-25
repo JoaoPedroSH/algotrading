@@ -1,15 +1,16 @@
 <!doctype html>
 <title>Algotrading - {% block title %}{% endblock %}</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 <nav>
-  <h1>Algotrading App</h1>
+  <h1>ALGOTRADING</h1>
   <ul>
     {% if g.user %}
       <li><span>{{ g.user['username'] }}</span>
-      <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
+      <li><a href="{{ url_for('auth.logout') }}">SAIR</a>
     {% else %}
-      <li><a href="{{ url_for('auth.register') }}">Register</a>
-      <li><a href="{{ url_for('auth.login') }}">Log In</a>
+      <li><a href="{{ url_for('auth.register') }}">CADASTRE-SE</a>
+      <li><a href="{{ url_for('auth.login') }}">ENTRE</a>
     {% endif %}
   </ul>
 </nav>

@@ -19,7 +19,6 @@ flask --app app init-db
 python [name do arquivo].py
 
 ### Status Configs IA
-0 - Capturando histórico do ativo
-1 - Pronto para ser executado
-2 - Executando
-3 - Posicionado no mercado
+0 - Preparado
+1 - Executando
+2 - Posicionado

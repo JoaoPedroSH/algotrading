@@ -8,7 +8,6 @@ from datetime import datetime
 
 load_dotenv()
 
-
 def initializeMt5():
     if not mt5.initialize():
         print("initialize() failed, error code =", mt5.last_error())

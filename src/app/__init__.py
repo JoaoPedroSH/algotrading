@@ -2,9 +2,11 @@ import os
 
 from flask import Flask
 
+from flask_socketio import SocketIO
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
+    
     app.config.from_mapping(
         SECRET_KEY="dev",
         DATABASE=os.path.join(app.instance_path, "app.sqlite"),
@@ -27,7 +29,10 @@ def create_app(test_config=None):
     from .services.db import db
 
     db.init_app(app)
-
+    
+    from .services.socket import socket
+    socket.init_socket(app)
+    
     from .services.auth import auth
 
     app.register_blueprint(auth.bp)
@@ -36,5 +41,6 @@ def create_app(test_config=None):
 
     app.register_blueprint(panel.bp)
     app.add_url_rule("/", endpoint="index")
-
+    
+    
     return app
