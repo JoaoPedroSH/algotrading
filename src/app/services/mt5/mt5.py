@@ -86,7 +86,7 @@ def infoTicksSymbol(symbol):
     ticks_frame["time"] = pd.to_datetime(ticks_frame["time"], unit="s")
 
     print("\nDisplay dataframe with ticks")
-    print(ticks_frame.head(1))
+    print(ticks_frame.head(20))
     return True
 
 
