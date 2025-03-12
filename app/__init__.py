@@ -1,4 +1,7 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from flask import Flask
 from .services.socket.socket import socketio
@@ -6,10 +9,16 @@ from .services.socket.socket import socketio
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
 
-    app.config.from_mapping(
-        SECRET_KEY="dev",
-        DATABASE=os.path.join(app.instance_path, "app.sqlite"),
-    )
+    if test_config is None:
+        app.config.from_mapping(
+            SECRET_KEY=os.getenv("SECRET_KEY"),
+            DB_HOST=os.getenv("DB_HOST"),
+            DB_USER=os.getenv("DB_USER"),
+            DB_PASSWORD=os.getenv("DB_PASSWORD"),
+            DB_NAME=os.getenv("DB_NAME"),
+        )
+    else:
+        app.config.from_mapping(test_config)
 
     if test_config is None:
         app.config.from_pyfile("config.py", silent=True)

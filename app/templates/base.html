@@ -1,9 +1,10 @@
 <!doctype html>
-<title>Algotrading - {% block title %}{% endblock %}</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<title>SYSTRADE IA - {% block title %}{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename = 'style.css') }}" />
+<script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 <nav>
-  <h1>ALGOTRADING</h1>
+  <h1>SYSTRADE IA</h1>
   <ul>
     {% if g.user %}
       <li><span>{{ g.user['username'] }}</span>
