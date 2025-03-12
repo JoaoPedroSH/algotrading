@@ -1,9 +1,10 @@
-import MetaTrader5 as mt5
 from datetime import datetime, timedelta, timezone
-from app.services.socket import socket
-from app.services.panel import model
+
+import MetaTrader5 as mt5
 import pandas as pd
-import pytz
+
+from app.services.panel import model
+from app.services.socket import socket
 
 
 async def executeConfig(id_conf):
@@ -42,6 +43,7 @@ def initializeMt5():
         print("initialize() failed, error code =", mt5.last_error())
         mt5.shutdown()
         return False
+    print("MetaTrader aberto")
     return True
 
 
@@ -169,9 +171,6 @@ def orderOpen():
     print("   opened position with POSITION_TICKET={}".format(result.order))
     print("   sleep 2 seconds before closing position #{}".format(result.order))
     time.sleep(2)
-
-
-orderOpen()
 
 
 def orderClose():

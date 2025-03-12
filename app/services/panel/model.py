@@ -1,5 +1,5 @@
 from app.services.db.db import get_db
-from app.services.mt5 import mt5
+
 
 def getConfigsUnique(id):
     try:

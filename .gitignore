@@ -1,4 +1,3 @@
-.gitignore¶
 .venv/
 .env
 
@@ -14,3 +13,6 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+identifier.sqlite
+
+.idea
