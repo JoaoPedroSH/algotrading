@@ -4,6 +4,8 @@
 
 ## MQL5 + Python ['https://www.mql5.com/en/docs/python_metatrader5']
 
+https://deepnote.com/workspace/TradeAnalysisIA-f8cf15c8-a720-48d6-9722-ea06cd06bc94/getting-started
+
 ## Prerequisites 
 MetaTrader5
 Microsoft Visual C++ 14.0 (Build Tool) ['https://visualstudio.microsoft.com/pt-br/visual-cpp-build-tools/']
